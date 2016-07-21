@@ -7,7 +7,7 @@ var redLED = require('./red_led.js');
 var isRedOn = false;
 var isGreenOn = false;
 client.on('connect', function () {
-  client.subscribe('Girish_D');
+  client.subscribe('<Topic_Name>');
 });
  
 client.on('message', function (topic, message) {
