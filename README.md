@@ -1,6 +1,6 @@
 # RSpiWorld
 
-I will be uploading the sample projects I build using RaspberryPi and Nodejs
+I will be uploading the sample projects I create on RaspberryPi using Nodejs
 
 ## App1
 Application to connect GREEN and RED LEDs on RaspberryPi Model 3 B. And operate them based on the MQTT message. 
