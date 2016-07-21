@@ -1,12 +1,15 @@
 # RSpiWorld
 
+I will be uploading the sample projects I build using RaspberryPi and Nodejs
+
+## App1
 Application to connect GREEN and RED LEDs on RaspberryPi Model 3 B. And operate them based on the MQTT message. 
 
 This application will help your wife know if you are busy in office or free. 
 
 Future enhacements will include buttons for wife to send text message as 'Call me Back' or 'I am not in home'
 
-#How to use?
+###How to use?
 
 * Make sure the LEDs are connected to the given ports on RSPi (from the source, GPIO Port 18 and 25)
 * Download the project
