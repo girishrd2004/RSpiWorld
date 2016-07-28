@@ -69,5 +69,3 @@ function exit() {
 }
 
 process.on(' SIGINT ', exit);
-
-console.log(' waiting for a message ');

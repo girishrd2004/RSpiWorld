@@ -3,12 +3,21 @@
 // To npm start from different folder : npm --prefix /home/pi/shared/App1 start & (note that the --prefix is like CD to npm and & for running in background)
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://iot.eclipse.org');
-var HashMap = require('hashmap');
-var subscriptionMap = new HashMap();
+var hashmap = require('hashmap');
+var subscriptionMap = new hashmap.HashMap();
+
+var isConnected = false;
 
 client.on('connect', function () {
-	console.log('connected to mqtt broker');
-});
+		console.log('connected to mqtt broker');
+		
+		subscriptionMap.forEach(function(value, key){
+			client.subscribe(key);
+			console.log('one subscirber added to topic : '+ key);
+		});
+	
+		isConnected = true;
+	});
 
 client.on('message', function (topic, message) {
 
@@ -18,10 +27,9 @@ client.on('message', function (topic, message) {
 	// find if the topic is just a string or the real topic object. If later, find getName
 	var handlers = subscriptionMap.get(topic);
 	
-	for(handler in handlers)
-	{
-		handler(msg);
-	}
+	handlers.forEach(function(fn, index){
+		fn(msg);
+		});
 	
 	lastReceivedMsg = msg;
 });
@@ -31,13 +39,20 @@ exports.subscribe = function(topicName, msgHandler)
 	if(!subscriptionMap.has(topicName))
 	{
 		subscriptionMap.set(topicName, [msgHandler]);
-		client.subscribe(topicName);
+		
+		// otherwise on connect the subscriptions will be added.
+		if(isConnected)
+			client.subscribe(topicName);
 	}
 	else
 		subscriptionMap.get(topicName).push(msgHandler);
+	if(isConnected)
+		console.log('one subscirber added to topic : '+ topicName);
 }
 
 exports.publish = function(topicName, msg)
 {
 	client.publish(topic,msg);
 } 
+
+console.log(' waiting for a message ');
