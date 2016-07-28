@@ -10,7 +10,7 @@
   "dependencies" : {
 	"mqtt":"^1.0",
 	"onoff":"^1.0",
-	"hasmap":"^1.0"
+	"hashmap":"^1.0"
   },
   "author": "Girish",
   "license": "ISC"

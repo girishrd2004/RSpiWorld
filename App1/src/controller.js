@@ -12,7 +12,7 @@ var isGreenOn = false;
 var isBuzzerOn = false;
 var lastReceivedMsg = null;
 
-mqttMsgService.subscript('Girish_DPi', function evaluateMsg(msg) {
+mqttMsgService.subscribe('Girish_DPi', function evaluateMsg(msg) {
 	if (' IamFree ' == msg) {
 		iAmFree();
 	} else if (' IamBusy ' == msg) {

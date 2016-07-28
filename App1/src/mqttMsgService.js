@@ -3,8 +3,8 @@
 // To npm start from different folder : npm --prefix /home/pi/shared/App1 start & (note that the --prefix is like CD to npm and & for running in background)
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://iot.eclipse.org');
-var Hashmap = require('hashmap');
-var subscriptionMap = new Hashmap();
+var HashMap = require('hashmap');
+var subscriptionMap = new HashMap();
 
 client.on('connect', function () {
 	console.log('connected to mqtt broker');
@@ -28,13 +28,13 @@ client.on('message', function (topic, message) {
 
 exports.subscribe = function(topicName, msgHandler)
 {
-	if(!hashmap.has(topicName))
+	if(!subscriptionMap.has(topicName))
 	{
-		hashmap.set(topicName, [msgHandler]);
+		subscriptionMap.set(topicName, [msgHandler]);
 		client.subscribe(topicName);
 	}
 	else
-		hashmap.get(topicName).push(msgHandler);
+		subscriptionMap.get(topicName).push(msgHandler);
 }
 
 exports.publish = function(topicName, msg)
