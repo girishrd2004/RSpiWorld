@@ -7,7 +7,7 @@ var Hashmap = require('hashmap');
 var subscriptionMap = new Hashmap();
 
 client.on('connect', function () {
-	client.subscribe('Girish_DPi');
+	console.log('connected to mqtt broker');
 });
 
 client.on('message', function (topic, message) {

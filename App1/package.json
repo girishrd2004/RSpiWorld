@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node src/index.js"
+	"start": "node src/controller.js"
   },
   "dependencies" : {
 	"mqtt":"^1.0",
-	"onoff":"^1.0"
+	"onoff":"^1.0",
+	"hasmap":"^1.0"
   },
   "author": "Girish",
   "license": "ISC"

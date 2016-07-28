@@ -5,13 +5,14 @@ var greenLED = require('./green_led.js');
 var redLED = require('./red_led.js');
 var activeBuzzer = require('./active_buzzer.js');
 var buttonForBuzzer = require('./button_ctrl_buzzer.js');
+var mqttMsgService = require('./mqttMsgService.js');
 
 var isRedOn = false;
 var isGreenOn = false;
 var isBuzzerOn = false;
 var lastReceivedMsg = null;
 
-function evaluateMsg(msg) {
+mqttMsgService.subscript('Girish_DPi', function evaluateMsg(msg) {
 	if (' IamFree ' == msg) {
 		iAmFree();
 	} else if (' IamBusy ' == msg) {
@@ -23,7 +24,7 @@ function evaluateMsg(msg) {
 	} else if (' ShutDown ' == msg) {
 		exit();
 	}
-}
+});
 
 function stopBuzzer(){
 	activeBuzzer.offBuzzer();
