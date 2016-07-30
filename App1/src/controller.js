@@ -13,15 +13,28 @@ var isBuzzerOn = false;
 var lastReceivedMsg = null;
 
 mqttMsgService.subscribe('Girish_DPi', function evaluateMsg(msg) {
-	if (' IamFree ' == msg) {
+
+	console.log('Let us evalutate');
+	
+	if(!('Start' == msg || 'ShutDown' == msg))
+		lastReceivedMsg = msg;
+	
+	if ('Start' == msg) {
+		msg = lastReceivedMsg;
+		console.log('Using the previous state :'+ msg);
+	}
+	
+	if ('IamFree' == msg) {
 		iAmFree();
-	} else if (' IamBusy ' == msg) {
+	} else if ('IamBusy' == msg) {
 		iAmBusy();
-	} else if (' AlertWife ' == msg) {
+	} else if ('AlertWife' == msg) {
 		alertWife();
-	} else if (' StopBuzzer ' == msg) {
+	} else if ('StopBuzzer' == msg) {
 		stopBuzzer();
-	} else if (' ShutDown ' == msg) {
+	} else if ('ShutDown' == msg) {
+		shutdown();
+	}else if ('Exit' == msg) {
 		exit();
 	}
 });
@@ -43,6 +56,7 @@ function shutdown() {
 
 function iAmFree() {
 
+	console.log('Set status : I am free');
 	if (isRedOn)
 		redLED.offLED();
 
@@ -52,6 +66,7 @@ function iAmFree() {
 
 function iAmBusy() {
 
+	console.log('Set status : I am busy');
 	if (isGreenOn)
 		greenLED.offLED();
 	redLED.onLED();
@@ -59,6 +74,8 @@ function iAmBusy() {
 }
 
 function alertWife() {
+
+	console.log('Alert wife...');
 	activeBuzzer.onBuzzer();
 	buttonForBuzzer.watch(activeBuzzer);
 	isBuzzerOn = true;

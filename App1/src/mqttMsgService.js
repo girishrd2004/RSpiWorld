@@ -28,10 +28,8 @@ client.on('message', function (topic, message) {
 	var handlers = subscriptionMap.get(topic);
 	
 	handlers.forEach(function(fn, index){
-		fn(msg);
+			fn(msg);
 		});
-	
-	lastReceivedMsg = msg;
 });
 
 exports.subscribe = function(topicName, msgHandler)
