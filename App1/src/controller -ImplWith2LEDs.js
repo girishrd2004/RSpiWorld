@@ -6,21 +6,22 @@ var redLED = require('./red_led.js');
 var activeBuzzer = require('./active_buzzer.js');
 var buttonForBuzzer = require('./button_ctrl_buzzer.js');
 var mqttMsgService = require('./mqttMsgService.js');
-var shiftRegForLED = require('./shiftRegForLED.js');
 
+var isRedOn = false;
+var isGreenOn = false;
 var isBuzzerOn = false;
 var lastReceivedMsg = null;
 
 mqttMsgService.subscribe('Girish_DPi', function evaluateMsg(msg) {
 
-	console.log('controller : Let us evalutate msg :'+ msg);
+	console.log('Let us evalutate');
 	
 	if(!('Start' == msg || 'ShutDown' == msg))
 		lastReceivedMsg = msg;
 	
 	if ('Start' == msg) {
 		msg = lastReceivedMsg;
-		console.log('controller : Using the previous state :'+ msg);
+		console.log('Using the previous state :'+ msg);
 	}
 	
 	if ('IamFree' == msg) {
@@ -43,28 +44,38 @@ function stopBuzzer(){
 }
 
 function shutdown() {
-	console.log('controller :  shutdown()');
-	shiftRegForLED.shutdown();
-	activeBuzzer.shutdown();
-	buttonForBuzzer.shutdown();
+	console.log(' shutdown called ');
+	redLED.offLED();
+	greenLED.offLED();
+	activeBuzzer.offBuzzer();
+	buttonForBuzzer.stop();
+	isGreenOn = false;
+	isRedOn = false;
 	isBuzzerOn = false;
 }
 
 function iAmFree() {
 
-	console.log('controller : Set status -> I am free');
-	shiftRegForLED.blinkLED('green')
+	console.log('Set status : I am free');
+	if (isRedOn)
+		redLED.offLED();
+
+	greenLED.onLED();
+	isGreenOn = true;
 }
 
 function iAmBusy() {
 
-	console.log('controller : Set status -> I am busy');
-	shiftRegForLED.blinkLED('red')
+	console.log('Set status : I am busy');
+	if (isGreenOn)
+		greenLED.offLED();
+	redLED.onLED();
+	isRedOn = true;
 }
 
 function alertWife() {
 
-	console.log('controller : Alert wife');
+	console.log('Alert wife...');
 	activeBuzzer.onBuzzer();
 	buttonForBuzzer.watch(activeBuzzer);
 	isBuzzerOn = true;

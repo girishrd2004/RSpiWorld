@@ -5,14 +5,14 @@ exports.buzzer = null;
 
 var isWatching = false;
 exports.watch = function(buzzer){
-	console.log('Watching for any events on button at GPIO port:'+GPIO_PORT);
+	console.log('button_ctrl_buzzer : Watching for any events on button at GPIO port:'+GPIO_PORT);
 	
 	if(!isWatching)
 	{
 		button = new Gpio(GPIO_PORT, 'in', 'both'); // and #27
 		button.watch(function(err, value) {
 		  if (err) exit();
-		  console.log('Button activity. value :'+ value);
+		  console.log('button_ctrl_buzzer : Button activity. value :'+ value);
 		  if(value == 1)
 			buzzer.offBuzzer();
 		});
@@ -20,7 +20,7 @@ exports.watch = function(buzzer){
 	}
 };
 
-exports.stop = function()
+exports.shutdown = function()
 {
 	if(isWatching)
 	{

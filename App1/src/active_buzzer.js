@@ -9,13 +9,13 @@ var ivInternal = null;
 exports.onBuzzer = function(){
 	if(!isStarted)
 	{
-	  console.log('export GPIO port : '+ GPIO_PORT);
+	  console.log('active_buzzer : export GPIO port : '+ GPIO_PORT);
 	  
 	  activeBuzzer = new Gpio(GPIO_PORT, 'out');
 	  activeBuzzer.writeSync(0);
 	  isStarted = true;
 	  
-	  console.log('Buzz...');
+	  console.log('active_buzzer : Buzz...');
 	  
 	  var toggleSwitch = false;
 	  iv = setInterval(function(){
@@ -34,10 +34,10 @@ exports.onBuzzer = function(){
 	}
 };
 
-exports.offBuzzer =  function(){
+exports.shutdown =  function(){
 	if(isStarted)
 	{
-	  console.log('release GPIO port :'+ GPIO_PORT);
+	  console.log('active_buzzer : release GPIO port :'+ GPIO_PORT);
 	  
 	  clearInterval(iv);
 	  clearInterval(ivInternal);
